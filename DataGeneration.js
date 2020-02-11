@@ -2,6 +2,7 @@
 console.log("Hello World!");
 console.log('its a me, Sam. This is my first commit');
 
+//split gen stuff   
 let id = ((Math.random() * 9999999) +1);
 let ticket_id = ((Math.random() * 9999999) +1);
 let position_id = ((Math.random() * 9999999) +1);
@@ -14,8 +15,17 @@ let updated_at = today.getFullYear() + '-' + today.getMonth() + '-' + today.getD
 let user_id = ((Math.random() * 9999999) +1);
 //let user_name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-var i;
-for (i=0; i < 10; i++) {
-    let user_name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-    console.log(user_name);
+function firstNameGenerator() {
+    let result = '';
+    let charactersUppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    let charactersLowerCase = 'abcdefghijklmnopqrstuvwxyz';
+    //generated length bewteen 3 and 8 inclusive
+    let firstNameLength = ((Math.random() * (8 - 3 + 1)) + 3);
+    for (var i = 0; i < firstNameLength; i++) {
+        result += charactersUppercase.charAt(Math.floor(Math.random()));
+        result += charactersUppercase.charAt(Math.floor() * firstNameLength);
+    }
+    return result;
 }
+
+console.log(firstNameGenerator());
