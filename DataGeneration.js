@@ -1,8 +1,4 @@
-
-//console.log("Hello World!");
-//console.log('its a me, Sam. This is my first commit');
-
-//split gen stuff   
+//split gen stuff to eventually go into a json
 let id = ((Math.random() * 9999999) +1);
 let ticket_id = ((Math.random() * 9999999) +1);
 let position_id = ((Math.random() * 9999999) +1);
@@ -13,10 +9,9 @@ let today = new Date();
 let created_at = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + ':' + today.getHours() + ':' + today.getMinutes();
 let updated_at = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate() + ':' + today.getHours() + ':' + today.getMinutes();
 let user_id = ((Math.random() * 9999999) +1);
-//let user_name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
 /**
- * Generates a random name length 4 to 8
+ * Generates a random name w/ length 4 to 8
  * takes no paramaters
  * names will not always make sense
  */
@@ -35,16 +30,13 @@ function nameGenerator() {
     return result;
 }
 
+/**
+ * adds the two randomly generated names together
+ */
 function fullNameGenerator() {
     let result = '';
     let firstName = nameGenerator();
     let lastName = nameGenerator();
     result = firstName + ' ' + lastName;
     return result;
-}
-//test output
-//console.log(firstNameGenerator());
-
-for (let i = 0; i < 100; i++) {
-    console.log(fullNameGenerator());
 }
