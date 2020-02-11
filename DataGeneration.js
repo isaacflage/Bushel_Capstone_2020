@@ -15,12 +15,19 @@ let updated_at = today.getFullYear() + '-' + today.getMonth() + '-' + today.getD
 let user_id = ((Math.random() * 9999999) +1);
 //let user_name = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 
-function firstNameGenerator() {
+/**
+ * Generates a random name length 4 to 8
+ * takes no paramaters
+ * names will not always make sense
+ */
+function nameGenerator() {
     let result = '';
     let charactersUppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let charactersLowerCase = 'abcdefghijklmnopqrstuvwxyz';
-    //generated length bewteen 3 and 8 inclusive
-    let firstNameLength = ((Math.random() * (8 - 3 + 1)) + 3);
+    //generated length bewteen 3(but 4 actually for some reason) and 8 inclusive
+    let max = 8;
+    let min = 3;
+    let firstNameLength = ((Math.random() * (max - min)) + min);
     result += charactersUppercase.charAt((Math.random() * 25) + 1);
     for (var i = 0; i < firstNameLength; i++) {
         result += charactersLowerCase.charAt((Math.random() * 25) + 1);
@@ -28,4 +35,16 @@ function firstNameGenerator() {
     return result;
 }
 
-console.log(firstNameGenerator());
+function fullNameGenerator() {
+    let result = '';
+    let firstName = nameGenerator();
+    let lastName = nameGenerator();
+    result = firstName + ' ' + lastName;
+    return result;
+}
+//test output
+//console.log(firstNameGenerator());
+
+for (let i = 0; i < 100; i++) {
+    console.log(fullNameGenerator());
+}
