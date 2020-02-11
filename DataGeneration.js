@@ -1,6 +1,6 @@
 
-console.log("Hello World!");
-console.log('its a me, Sam. This is my first commit');
+//console.log("Hello World!");
+//console.log('its a me, Sam. This is my first commit');
 
 //split gen stuff   
 let id = ((Math.random() * 9999999) +1);
@@ -21,9 +21,9 @@ function firstNameGenerator() {
     let charactersLowerCase = 'abcdefghijklmnopqrstuvwxyz';
     //generated length bewteen 3 and 8 inclusive
     let firstNameLength = ((Math.random() * (8 - 3 + 1)) + 3);
+    result += charactersUppercase.charAt((Math.random() * 25) + 1);
     for (var i = 0; i < firstNameLength; i++) {
-        result += charactersUppercase.charAt(Math.floor(Math.random()));
-        result += charactersUppercase.charAt(Math.floor() * firstNameLength);
+        result += charactersLowerCase.charAt((Math.random() * 25) + 1);
     }
     return result;
 }
