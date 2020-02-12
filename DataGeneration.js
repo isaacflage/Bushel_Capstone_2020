@@ -10,7 +10,7 @@ function generateSplit() {
         ticket_id: (Math.floor((Math.random() * 9999999) +1)),
         position_id: (Math.floor((Math.random() * 9999999) +1)),
         contract_id: (Math.floor((Math.random() * 9999999) +1)),
-        amount: 100, 
+        amount: (Math.floor((Math.random() * 100) + 1)), 
         amount_type: 'percentage',
         created_at: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ':' + today.getHours() + ':' + today.getMinutes(),
         updated_at: null,
