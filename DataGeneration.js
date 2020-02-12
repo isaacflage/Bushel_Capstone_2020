@@ -1,3 +1,3 @@
+let faker = require('faker');
 
-
-console.log("Hello World!");
+console.log(faker.name.findName());
