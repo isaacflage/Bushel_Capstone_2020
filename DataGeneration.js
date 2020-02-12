@@ -22,21 +22,3 @@ function generateSplit() {
 
 //testing
 generateSplit();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
