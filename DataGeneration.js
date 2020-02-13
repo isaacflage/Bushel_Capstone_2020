@@ -1,5 +1,8 @@
+//faker variable
 let faker = require('faker');
-
+/**
+ * Generates a random ticket
+ */
 function generateTicket(){   
     remarkAmount = Math.floor(Math.random() * 10);
     originalRemarks = [];
@@ -73,9 +76,12 @@ function generateSplit() {
         user_id: (Math.floor((Math.random() * 9999999) +1)),
         user_name: faker.name.findName()
     }
-    console.log(JSON.stringify(split));
+    return split;
 }
 
 //testing
-generateSplit();
+console.log('\ngenerated ticket:\n');
+console.log(generateTicket());
+console.log('\ngenerated split:\n');
+console.log(generateSplit());
 
