@@ -53,8 +53,6 @@ function generateTicket(){
         lot_id: "L" + Math.floor((Math.random() * 10) + 1)
     };
 
-    console.log(JSON.stringify(ticket));
+    return ticket;
 
 }
-
-generateTicket();
