@@ -71,8 +71,8 @@ function generateSplit() {
         contract_id: (Math.floor((Math.random() * 9999999) +1)),
         amount: (Math.floor((Math.random() * 100) + 1)), 
         amount_type: 'percentage',
-        created_at: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ':' + today.getHours() + ':' + today.getMinutes(),
-        updated_at: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ':' + today.getHours() + ':' + today.getMinutes(),
+        created_at: faker.date.recent(),
+        updated_at: faker.date.recent(),
         user_id: (Math.floor((Math.random() * 9999999) +1)),
         user_name: faker.name.findName()
     }
