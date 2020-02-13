@@ -64,7 +64,6 @@ function generateTicket(){
  */
 function generateSplit() {
     let today = new Date(); 
-    //random generation of split
     let split = {
         id: (Math.floor((Math.random() * 9999999) +1)),
         ticket_id: (Math.floor((Math.random() * 9999999) +1)),
