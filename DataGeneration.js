@@ -1,5 +1,6 @@
 //faker variable
 let faker = require('faker');
+
 /**
  * Generates a random ticket
  */
