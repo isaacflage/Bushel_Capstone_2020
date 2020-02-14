@@ -1,0 +1,22 @@
+{
+  "name": "bushel_capstone_2020",
+  "version": "1.0.0",
+  "description": "Bushel Capstone Project",
+  "main": "DataGeneration.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/isaacflage/Bushel_Capstone_2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/isaacflage/Bushel_Capstone_2020/issues"
+  },
+  "homepage": "https://github.com/isaacflage/Bushel_Capstone_2020#readme",
+  "dependencies": {
+    "faker": "^4.1.0"
+  }
+}
