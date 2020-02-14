@@ -18,13 +18,13 @@ function generateTicket(){
     }
     
     let ticket = {      
-        id: Math.floor(Math.random() * 999999) + 1, 
+        id: faker.random.uuid(), 
         version: Math.floor(Math.random() * 10) + "." + Math.floor(Math.random() * 10) + "." + Math.floor(Math.random() * 10), 
-        commodity_id: faker.address.stateAbbr(),
-        elevator_id: "GRAN000" + (Math.floor(Math.random() * 9) + 1),
-        display_id: Math.floor(Math.random() * 999999) + 1,
-        identifier: Math.floor(Math.random() * 999999) + 1,
-        user_id: Math.floor(Math.random() * 9999999) + 1,
+        commodity_id: faker.random.uuid(),
+        elevator_id: faker.random.uuid(),
+        display_id: faker.random.uuid(),
+        identifier: faker.random.uuid(),
+        user_id: faker.random.uuid(),
         created_at: faker.date.recent(),
         updated_at: faker.date.recent(),
         deleted_at: faker.date.recent(),
@@ -44,7 +44,7 @@ function generateTicket(){
 
         remarks: originalRemarks,
 
-        sample_id: faker.lorem.word(),
+        sample_id: faker.random.uuid(),
         truck_driver: faker.name.firstName() + " " + faker.name.lastName(),
         truck_license: faker.random.uuid(),
         truck_name: "Semi " + Math.floor((Math.random() * 10) + 1),
@@ -52,9 +52,9 @@ function generateTicket(){
         weigh_master: faker.name.firstName() + " " + faker.name.lastName(),
         weigh_out_at: faker.date.recent(),
         field_name: faker.random.word(),
-        field_id: faker.company.companySuffix(),
+        field_id: faker.random.uuid(),
         grader: faker.name.firstName() + " " + faker.name.lastName(),
-        lot_id: "L" + Math.floor((Math.random() * 10) + 1)
+        lot_id: faker.random.uuid()
     };
     return ticket;
 }
@@ -65,15 +65,15 @@ function generateTicket(){
 function generateSplit() {
     let today = new Date(); 
     let split = {
-        id: (Math.floor((Math.random() * 9999999) +1)),
-        ticket_id: (Math.floor((Math.random() * 9999999) +1)),
-        position_id: (Math.floor((Math.random() * 9999999) +1)),
-        contract_id: (Math.floor((Math.random() * 9999999) +1)),
+        id: faker.random.uuid(),
+        ticket_id: faker.random.uuid(),
+        position_id: faker.random.uuid(),
+        contract_id: faker.random.uuid(),
         amount: (Math.floor((Math.random() * 100) + 1)), 
         amount_type: 'percentage',
         created_at: faker.date.recent(),
         updated_at: faker.date.recent(),
-        user_id: (Math.floor((Math.random() * 9999999) +1)),
+        user_id: faker.random.uuid(),
         user_name: faker.name.findName()
     }
     return split;
