@@ -75,27 +75,50 @@ function generateTicket(){
 }
 
 /**
- * Generates a random split
+ * Generates a random split corresponding to a ticket
  */
 function generateSplit(ticketId) {
-    let split = {
-        id: faker.random.uuid(),
-        ticket_id: ticketId,
-        position_id: faker.random.uuid(),
-        contract_id: faker.random.uuid(),
-        amount: (Math.floor((Math.random() * 100) + 1)), 
-        amount_type: 'percentage',
-        created_at: faker.date.recent(),
-        updated_at: faker.date.recent(),
-        user_id: faker.random.uuid(),
-        user_name: faker.name.findName()
+    userIdList = ["K3523", "S1109", "Q4393", "L1432", "I8035", "Y4589", "H9653", "A3165", "C9487", "O6234"];
+    
+    splits = []
+    numOfSplits = Math.floor(Math.random() * (4 - 1 + 1) ) + 1;
+    for (let i = 0; i < numOfSplits; i++){
+        splits[i] = {
+            id: faker.random.uuid(),
+            ticket_id: ticketId,
+            position_id: faker.random.uuid(),
+            contract_id: faker.random.uuid(),
+            amount: 100 / numOfSplits, 
+            amount_type: 'percentage',
+            created_at: faker.date.recent(),
+            updated_at: faker.date.recent(),
+            user_id: userIdList[Math.floor(Math.random() * 10)],
+            user_name: faker.name.findName()
+        }
+    }  
+    return splits;
+}
+
+/**
+ * Generates json object of specified number of tickets and their splits
+ */
+
+function createTickets(numOfTickets){   
+    tickets = "[";
+    for (let i = 0; i < numOfTickets; i++){
+        ticket = generateTicket();
+        splits = generateSplit(ticket.id);
+        ticketJson = JSON.stringify(ticket);
+        splitsJson = JSON.stringify(splits);
+        tickets += "[" + ticketJson + "," + splitsJson + "]" + ",";
     }
-    return split;
+    tickets += "]";
+    //removes haning comma
+    tickets = tickets.substring(0, tickets.length - 2)+ "]";
+    
+    return tickets;
 }
 
 //testing
-console.log('\ngenerated ticket:\n');
-console.log(generateTicket());
-console.log('\ngenerated split:\n');
-console.log(generateSplit(123));
+console.log(createTickets(5));
 
