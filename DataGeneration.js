@@ -17,30 +17,45 @@ function generateTicket(){
         } 
     }
     
+    commodityIdList = ["SB", "CO", "P", "W", "CA", "DP", "H", "FV", "O", "S"];
+    elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
+    userIdList = ["K3523", "S1109", "Q4393", "L1432", "I8035", "Y4589", "H9653", "A3165", "C9487", "O6234"];
+    
+    primaryGrossWeight = (495.67 - (Math.random() * 100) + 1).toFixed(2);
+    primaryTareWeight = ((Math.random() * 100) + 1).toFixed(2);
+    primaryShrinkWeight = (Math.random() < 0.1) ? 0 : (67.47 - (Math.random() * 10) + 1).toFixed(2);
+    primaryDockWeight = (Math.random() < 0.1) ? 0 : ((Math.random() * 10) + 1).toFixed(2);
+
+    secondaryGrossWeight = (42202.0 - (Math.random() * 100) + 1).toFixed(2);
+    secondaryTareWeight = (14711.0 - (Math.random() * 100) + 1).toFixed(2);
+    secondaryShrinkWeight = (Math.random() < 0.1) ? 0 : (12.75 - (Math.random() * 10) + 1).toFixed(2);
+    secondaryDockWeight = (Math.random() < 0.1) ? 0 : ((Math.random() * 10) + 1).toFixed(2);
+
     let ticket = {      
         id: faker.random.uuid(), 
-        version: Math.floor(Math.random() * 10) + "." + Math.floor(Math.random() * 10) + "." + Math.floor(Math.random() * 10), 
-        commodity_id: faker.random.uuid(),
-        elevator_id: faker.random.uuid(),
+        version: "1.1.0", 
+        commodity_id: commodityIdList[Math.floor(Math.random() * 10)],
+        elevator_id: elevatorIdList[Math.floor(Math.random() * 10)],
         display_id: faker.random.uuid(),
         identifier: faker.random.uuid(),
-        user_id: faker.random.uuid(),
+        user_id: userIdList[Math.floor(Math.random() * 10)],
         created_at: faker.date.recent(),
         updated_at: faker.date.recent(),
         deleted_at: faker.date.recent(),
 
-        primary_dock_weight: ((Math.random() * 10) + 1).toFixed(2),
-        primary_gross_weight: (495.67 - (Math.random() * 100) + 1).toFixed(2),
-        primary_net_weight: (423.24 - (Math.random() * 100) + 1).toFixed(2),
-        primary_shrink_weight: (67.47 - (Math.random() * 10) + 1).toFixed(2),
-        primary_tare_weight: ((Math.random() * 100) + 1).toFixed(2),
-        primary_weight_uom: faker.address.stateAbbr(),
-        secondary_dock_weight: ((Math.random() * 10) + 1).toFixed(2),
-        secondary_gross_weight: (42202.0 - (Math.random() * 100) + 1).toFixed(2),
-        secondary_net_weight: (24199.0 - (Math.random() * 100) + 1).toFixed(2),
-        secondary_shrink_weight: (12.75 - (Math.random() * 10) + 1).toFixed(2),
-        secondary_tare_weight: (14711.0 - (Math.random() * 100) + 1).toFixed(2),
-        secondary_weight_uom: (Math.random() < 0.5) ? "lbs":"kgs",
+        primary_dock_weight: primaryDockWeight,
+        primary_gross_weight: primaryGrossWeight,      
+        primary_shrink_weight: primaryShrinkWeight,
+        primary_tare_weight: primaryTareWeight,
+        primary_weight_uom: "BU",
+        primary_net_weight: (primaryGrossWeight - primaryTareWeight - primaryShrinkWeight - primaryDockWeight).toFixed(2),
+        
+        secondary_dock_weight: secondaryDockWeight,
+        secondary_gross_weight: secondaryGrossWeight, 
+        secondary_shrink_weight: secondaryShrinkWeight,
+        secondary_tare_weight: secondaryTareWeight,
+        secondary_weight_uom: (Math.random() < 0.5) ? "lbs" : "kgs",
+        secondary_net_weight: (secondaryGrossWeight - secondaryTareWeight - secondaryShrinkWeight - secondaryDockWeight).toFixed(2),
 
         remarks: originalRemarks,
 
@@ -62,11 +77,10 @@ function generateTicket(){
 /**
  * Generates a random split
  */
-function generateSplit() {
-    let today = new Date(); 
+function generateSplit(ticketId) {
     let split = {
         id: faker.random.uuid(),
-        ticket_id: faker.random.uuid(),
+        ticket_id: ticketId,
         position_id: faker.random.uuid(),
         contract_id: faker.random.uuid(),
         amount: (Math.floor((Math.random() * 100) + 1)), 
@@ -83,5 +97,5 @@ function generateSplit() {
 console.log('\ngenerated ticket:\n');
 console.log(generateTicket());
 console.log('\ngenerated split:\n');
-console.log(generateSplit());
+console.log(generateSplit(123));
 
