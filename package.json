@@ -2,7 +2,7 @@
   "name": "bushel_capstone_2020",
   "version": "1.0.0",
   "description": "Bushel Capstone Project",
-  "main": "DataGeneration.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,5 +19,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "faker": "^4.1.0"
-  }
+  },
+  "devDependencies": {}
 }

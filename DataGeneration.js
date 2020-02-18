@@ -103,7 +103,9 @@ function generateSplit(ticketId) {
  * Generates json object of specified number of tickets and their splits
  */
 
-function createTickets(numOfTickets){   
+// function createTickets(numOfTickets)
+module.exports = function(numOfTickets)
+{   
     tickets = "[";
     for (let i = 0; i < numOfTickets; i++){
         ticket = generateTicket();
@@ -116,9 +118,9 @@ function createTickets(numOfTickets){
     //removes haning comma
     tickets = tickets.substring(0, tickets.length - 2)+ "]";
     
-    return tickets;
+    return JSON.parse(tickets);
 }
 
 //testing
-console.log(createTickets(5));
+//console.log((createTickets(2)));
 
