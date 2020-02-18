@@ -5,7 +5,7 @@ const createTickets = require('./DataGeneration');
 
 
 router.get('/getTickets', (req, res) => {
-    // res.send('Hello World')
+    
     res.json(createTickets(req.query.count));
 });
 
