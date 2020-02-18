@@ -3,7 +3,7 @@ var router = express.Router();
 const createTickets = require('./DataGeneration');
 
 
-
+//query router
 router.get('/getTickets', (req, res) => {
     
     res.json(createTickets(req.query.count));
