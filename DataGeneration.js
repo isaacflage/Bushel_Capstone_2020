@@ -38,7 +38,7 @@ function generateTicket(){
         elevator_id: elevatorIdList[Math.floor(Math.random() * 10)],
         display_id: faker.random.uuid(),
         identifier: faker.random.uuid(),
-        user_id: userIdList[Math.floor(Math.random() * 10)],
+        user_id: (Math.random() < 0.1) ? userIdList[Math.floor(Math.random() * 10)] : null,
         created_at: faker.date.recent(),
         updated_at: faker.date.recent(),
         deleted_at: faker.date.recent(),
@@ -77,7 +77,7 @@ function generateTicket(){
 /**
  * Generates a random split corresponding to a ticket
  */
-function generateSplit(ticketId) {
+function generateSplit(ticketId, userId) {
     userIdList = ["K3523", "S1109", "Q4393", "L1432", "I8035", "Y4589", "H9653", "A3165", "C9487", "O6234"];
     
     splits = []
@@ -95,7 +95,10 @@ function generateSplit(ticketId) {
             user_id: userIdList[Math.floor(Math.random() * 10)],
             user_name: faker.name.findName()
         }
-    }  
+    }
+    if(userId != null){
+        splits[0].user_id = userId;
+    } 
     return splits;
 }
 
@@ -103,24 +106,43 @@ function generateSplit(ticketId) {
  * Generates json object of specified number of tickets and their splits
  */
 
-// function createTickets(numOfTickets)
+//function createTickets(numOfTickets)
 module.exports = function(numOfTickets)
 {   
-    tickets = "[";
+    tickets = [];
+    allSplits = [];  
     for (let i = 0; i < numOfTickets; i++){
         ticket = generateTicket();
-        splits = generateSplit(ticket.id);
-        ticketJson = JSON.stringify(ticket);
-        splitsJson = JSON.stringify(splits);
-        tickets += "[" + ticketJson + "," + splitsJson + "]" + ",";
+        splits = generateSplit(ticket.id, ticket.user_id);
+        tickets.push(ticket);
+        splits.forEach(s => {
+            allSplits.push(s);
+        });
     }
-    tickets += "]";
-    //removes haning comma
-    tickets = tickets.substring(0, tickets.length - 2)+ "]";
-    
-    return JSON.parse(tickets);
+
+    updateSplits = {
+        'splits': allSplits
+    };
+    updateTickets = {
+        'tickets': tickets
+    };
+
+    updateSplitsPackage = {
+        'update-splits': updateSplits,      
+    };
+    updateTicketsPackage = {
+        'update-tickets': updateTickets
+    };
+
+    data = [updateSplitsPackage, updateTicketsPackage];
+    dataPackage = {
+        'data': data
+    };
+
+    //return JSON.stringify(dataPackage), for some reason you have to stringify for it to appear correctly in the console window, but the line below makes it appear correctly for the browser ヽ(ﾟдﾟ)ノ
+    return dataPackage;
 }
 
 //testing
-//console.log((createTickets(2)));
+//console.log((createTickets(3)));
 
