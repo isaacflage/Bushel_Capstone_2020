@@ -139,8 +139,8 @@ module.exports = function(numOfTickets)
         'data': data
     };
 
-
-    return JSON.stringify(dataPackage);
+    //return JSON.stringify(dataPackage), for some reason you have to stringify for it to appear correctly in the console window, but the line below makes it appear correctly for the browser ヽ(ﾟдﾟ)ノ
+    return dataPackage;
 }
 
 //testing
