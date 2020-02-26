@@ -41,7 +41,7 @@ function generateTicket(){
         user_id: (Math.random() < 0.1) ? userIdList[Math.floor(Math.random() * 10)] : null,
         created_at: faker.date.recent(),
         updated_at: faker.date.recent(),
-        deleted_at: faker.date.recent(),
+        deleted_at: null,
 
         primary_dock_weight: primaryDockWeight,
         primary_gross_weight: primaryGrossWeight,      
