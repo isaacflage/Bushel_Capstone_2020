@@ -92,8 +92,8 @@ function generateSplit(ticketId, userId) {
             amount_type: 'percentage',
             created_at: faker.date.recent(),
             updated_at: faker.date.recent(),
-            user_id: userIdList[Math.floor(Math.random() * 10)],
-            user_name: faker.name.findName()
+            user_id: 2020001,
+            user_name: "Capstone Team"
         }
     }
     if(userId != null){
