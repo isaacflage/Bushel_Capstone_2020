@@ -92,13 +92,15 @@ function generateSplit(ticketId, userId) {
             amount_type: 'percentage',
             created_at: faker.date.recent(),
             updated_at: faker.date.recent(),
-            user_id: 2020001,
-            user_name: "Capstone Team"
+            user_id: userIdList[Math.floor(Math.random() * 10)],
+            user_name: faker.name.findName()
         }
     }
-    if(userId != null){
-        splits[0].user_id = userId;
-    } 
+    splits[0].user_id = '2020001';
+    splits[0].user_name = 'Capstone Team';
+    // if(userId != null){
+    //     splits[0].user_id = userId;
+    // } 
     return splits;
 }
 
@@ -106,8 +108,7 @@ function generateSplit(ticketId, userId) {
  * Generates json object of specified number of tickets and their splits
  */
 
-//function createTickets(numOfTickets)
-module.exports = function(numOfTickets)
+function createTickets(numOfTickets)
 {   
     tickets = [];
     allSplits = [];  
@@ -142,6 +143,11 @@ module.exports = function(numOfTickets)
     //return JSON.stringify(dataPackage), for some reason you have to stringify for it to appear correctly in the console window, but the line below makes it appear correctly for the browser ヽ(ﾟдﾟ)ノ
     return dataPackage;
 }
+
+module.exports.getTickets = function(numOfTickets){
+    return createTickets(numOfTickets);
+}
+
 
 //testing
 //console.log((createTickets(3)));

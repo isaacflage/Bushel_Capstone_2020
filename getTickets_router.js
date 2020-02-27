@@ -1,12 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const createTickets = require('./DataGeneration');
+const dataGen = require('./DataGeneration');
+const restApi = require('./RestAPI');
 
 
 //query router
 router.get('/getTickets', (req, res) => {
-    
-    res.json(createTickets(req.query.count));
+  tickets = dataGen.getTickets(req.query.count);
+  res.json(tickets);
+  restApi.sendTickets(tickets);
 });
 
 // define the home page route
