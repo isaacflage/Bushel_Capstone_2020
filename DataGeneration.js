@@ -104,6 +104,27 @@ function generateSplit(ticketId, userId) {
     return splits;
 }
 
+function generateElevator(){
+    elevators = [];
+    elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
+    for (i = 0; i < elevatorIdList.length; i++){
+        elevators[i] = {
+            id: elevatorIdList[i],
+            name: "Capstone Elevator" + i.toString(),
+            address_line_1: null,
+            address_line_2: null,
+            city: "Fargo",
+            state: "ND",
+            zip_code: 58102,
+            phone: null,
+            fax: null,
+            email: null,
+            website: null
+        }
+    }
+    return elevators;
+}
+
 /**
  * Generates json object of specified number of tickets and their splits
  */
@@ -111,7 +132,8 @@ function generateSplit(ticketId, userId) {
 function createTickets(numOfTickets)
 {   
     tickets = [];
-    allSplits = [];  
+    allSplits = []; 
+    elevatorList = generateElevator(); 
     for (let i = 0; i < numOfTickets; i++){
         ticket = generateTicket();
         splits = generateSplit(ticket.id, ticket.user_id);
@@ -121,12 +143,19 @@ function createTickets(numOfTickets)
         });
     }
 
+    // function createElevators(){
+    //     elevators_ = generateElevator();
+
+    // }
     updateSplits = {
         'splits': allSplits
     };
     updateTickets = {
         'tickets': tickets
     };
+    updateElevators = {
+        'elevators': elevatorList
+    }
 
     updateSplitsPackage = {
         'update-splits': updateSplits,      
@@ -134,8 +163,11 @@ function createTickets(numOfTickets)
     updateTicketsPackage = {
         'update-tickets': updateTickets
     };
+    updateElevatorsPackage = {
+        'update-elevators': updateElevators
+    }
 
-    data = [updateSplitsPackage, updateTicketsPackage];
+    data = [updateSplitsPackage, updateTicketsPackage, updateElevatorsPackage];
     dataPackage = {
         'data': data
     };
