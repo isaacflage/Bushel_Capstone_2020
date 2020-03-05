@@ -37,7 +37,7 @@ router.get('/getElevator/:arg', function (req, res) {
 
 // define the home page route
 router.get('/', function(req, res) {
-  res.send('heyheyhey home page  /getTickets/Elevator/:arg  /getElevator/:arg getCommodities?count=3');
+  res.send('heyheyhey home page <br/> /getTickets/Elevator/:arg <br/> /getElevator/:arg <br/> getCommodities?count=x');
 });
 
 
