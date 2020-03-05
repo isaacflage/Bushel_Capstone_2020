@@ -4,7 +4,7 @@ let faker = require('faker');
 /**
  * Generates a random ticket
  */
-function generateTicket(){   
+function generateTicket(arg = "GRAN"){   
     remarkAmount = Math.floor(Math.random() * 10);
     originalRemarks = [];
     for (let i = 0; i < remarkAmount; i++) {
@@ -18,8 +18,15 @@ function generateTicket(){
     }
     
     commodityIdList = ["SB", "CO", "P", "W", "CA", "DP", "H", "FV", "O", "S"];
-    elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
+    // elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
     userIdList = ["K3523", "S1109", "Q4393", "L1432", "I8035", "Y4589", "H9653", "A3165", "C9487", "O6234"];
+
+    elevatorIdList = [];
+    for(i=1; i<11;i++){
+        elevatorIdList[i-1] = arg+"0"+i.toString()
+        
+    };
+    
     
     primaryGrossWeight = (495.67 - (Math.random() * 100) + 1).toFixed(2);
     primaryTareWeight = ((Math.random() * 100) + 1).toFixed(2);
@@ -125,17 +132,88 @@ function generateElevator(){
     return elevators;
 }
 
+//used in package_update_elecators and will used for router
+function generateElevator(arg){
+    elevators = [];
+    
+    for (i = 1; i < 11; i++){
+        elevators[i-1] = {
+            id: arg+"0"+i.toString(),
+            name: "Capstone Elevator" + i.toString(),
+            address_line_1: null,
+            address_line_2: null,
+            city: "Fargo",
+            state: "ND",
+            zip_code: 58102,
+            phone: null,
+            fax: null,
+            email: null,
+            website: null
+        }
+    }
+    return elevators;
+}
+
+function generateCommodity(num = 10 , arg = "GRAN" ){
+    
+    commodity = [];
+    commodityIdList = ["SB", "CO", "P", "W", "CA", "DP", "H", "FV", "O", "S"];
+    displayName = [""];
+
+    elevatorIdList = [];
+    for(i=1; i<11;i++){
+        elevatorIdList[i-1] = arg+"0"+i.toString()
+        
+    };
+
+    for (k = 1; k < num+1; k++){
+        commodity[k-1] = {
+            id:commodityIdList[k-1],
+            display_Name:commodityIdList[k-1]+"_FullName",
+            elevator_id: elevatorIdList[Math.floor(Math.random() * 10)]//qusetion for binding elevator id and commodity id in tickets and commodity amd elevator data
+        }
+    };
+
+    return commodity;
+
+}
+
+function package_commodity(num, arg){
+    updateCom = {
+        'commodity': generateCommodity(num, arg)
+    };
+    
+    dataPackage = {
+        'data': [{"update-commodities":updateCom}]
+    };
+    
+    return dataPackage
+}
+
+//will used for router
+function package_update_elevators(arg){
+    updateElevators = {
+        'elevators': generateElevator(arg)
+    };
+    
+    dataPackage = {
+        'data': [{"update-elevators":updateElevators}]
+    };
+    
+    return dataPackage
+}
+
 /**
  * Generates json object of specified number of tickets and their splits
  */
 
-function createTickets(numOfTickets)
+function createTickets(numOfTickets, arg)
 {   
     tickets = [];
     allSplits = []; 
     elevatorList = generateElevator(); 
     for (let i = 0; i < numOfTickets; i++){
-        ticket = generateTicket();
+        ticket = generateTicket(arg);
         splits = generateSplit(ticket.id, ticket.user_id);
         tickets.push(ticket);
         splits.forEach(s => {
@@ -143,19 +221,22 @@ function createTickets(numOfTickets)
         });
     }
 
-    // function createElevators(){
-    //     elevators_ = generateElevator();
-
-    // }
+    
     updateSplits = {
         'splits': allSplits
     };
     updateTickets = {
         'tickets': tickets
     };
+    
     updateElevators = {
-        'elevators': elevatorList
-    }
+        'elevators': generateElevator(arg)
+    };
+
+    // updateCommodities = {
+    //     'commodity': generateCommodity(arg)
+    // };
+
 
     updateSplitsPackage = {
         'update-splits': updateSplits,      
@@ -165,9 +246,13 @@ function createTickets(numOfTickets)
     };
     updateElevatorsPackage = {
         'update-elevators': updateElevators
-    }
+    };
 
-    data = [updateSplitsPackage, updateTicketsPackage, updateElevatorsPackage];
+    // updataCommoditysPackage = {
+    //     "update-commodities":updateCommodities
+    // };
+
+    data = [updateSplitsPackage, updateTicketsPackage, updateElevatorsPackage,updataCommoditysPackage];
     dataPackage = {
         'data': data
     };
@@ -176,8 +261,21 @@ function createTickets(numOfTickets)
     return dataPackage;
 }
 
-module.exports.getTickets = function(numOfTickets){
-    return createTickets(numOfTickets);
+
+
+
+
+
+module.exports.getTickets = function(numOfTickets,arg = "GRAN"){
+    return createTickets(numOfTickets, arg );
+}
+
+module.exports.getUpdateElevators = function(arg){
+    return package_update_elevators(arg);
+}
+
+module.exports.getUpdateCommodities = function(num){
+    return package_commodity(num);
 }
 
 
