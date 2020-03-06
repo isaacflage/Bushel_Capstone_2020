@@ -14,7 +14,7 @@ router.get('/getTickets', (req, res) => {
 router.get('/getCommodities', (req, res) => {
   commos = dataGen.getUpdateCommodities(parseInt(req.query.count));
   res.json(commos);
-  // restApi.sendTickets(tickets);
+  // restApi.sendTickets(commos);
 });
 
 router.get('/getTickets/Elevator/:ElePrefix', (req, res) => {
@@ -26,20 +26,20 @@ router.get('/getTickets/Elevator/:ElePrefix', (req, res) => {
 router.get('/getElevator', function (req, res) {
   elevators = dataGen.getUpdateElevators("GRAN")
   res.send(elevators);
-  // restApi.sendTickets(tickets);
+  // restApi.sendTickets(elevators);
 });
 
 router.get('/getElevator/:ElePrefix', function (req, res) {
   elevators = dataGen.getUpdateElevators("GRAN")
   elevators = dataGen.getUpdateElevators(req.params.ElePrefix.toUpperCase());
   res.send(elevators);
-  // restApi.sendTickets(tickets);
+  // restApi.sendTickets(elevators);
 });
 
 
 // define the home page route
 router.get('/', function(req, res) {
-  res.send('heyheyhey home page <br/> /getTickets/Elevator/:arg <br/> /getElevator/:arg <br/> getCommodities?count=x');
+  res.send('heyheyhey home page <br/><br/> /getTickets/Elevator/:ElePrefix?count=x <br/><br/> /getElevator/:ElePrefix <br/><br/> getCommodities?count=x');
 });
 
 
