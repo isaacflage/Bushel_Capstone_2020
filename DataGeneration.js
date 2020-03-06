@@ -233,9 +233,9 @@ function createTickets(numOfTickets, ElePrefix)
         'elevators': generateElevator(ElePrefix)
     };
 
-    updateCommodities = {
-        'commodity': generateCommodity(ElePrefix)
-    };
+    // updateCommodities = {
+    //     'commodity': generateCommodity(ElePrefix)
+    // };
 
 
     updateSplitsPackage = {
@@ -248,11 +248,11 @@ function createTickets(numOfTickets, ElePrefix)
         'update-elevators': updateElevators
     };
 
-    updataCommoditysPackage = {
-        "update-commodities":updateCommodities
-    };
-
-    data = [updateSplitsPackage, updateTicketsPackage, updateElevatorsPackage,updataCommoditysPackage];
+    // updataCommoditysPackage = {
+    //     "update-commodities":updateCommodities
+    // };
+    // ,updataCommoditysPackage
+    data = [updateSplitsPackage, updateTicketsPackage, updateElevatorsPackage];
     dataPackage = {
         'data': data
     };
