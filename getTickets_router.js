@@ -5,18 +5,27 @@ const restApi = require('./RestAPI');
 
 //tracks total amount of tickets
 let ticketCount = 0;
+let responseCode = '';
+let ticketRunCount = 0;
+let statusRunCount = 0;
 
 //query router
 router.get('/getTickets', (req, res) => {
   tickets = dataGen.getTickets(req.query.count);
   res.json(tickets);
-  restApi.sendTickets(tickets);
+  //restApi.sendTickets(tickets);
   
-  ticketCount += req.query.count;
+  ticketRunCount++;
+  responseCode += res.statusMessage;
+  ticketCount += Number(req.query.count);
 });
 
 router.get('/status', (req, res) => {
-  res.send('Number of tickets: ' + ticketCount)
+  statusRunCount++;
+  res.send('Number of Tickets: ' + ticketCount + '\n' +
+  'Status Code: ' + responseCode + '\n' +
+  'Number of Ticket Endpoint Runs: ' + ticketRunCount + '\n' +
+  'Number of Status Endpoint Runs: ' + statusRunCount);
 });
 
 // define the home page route
