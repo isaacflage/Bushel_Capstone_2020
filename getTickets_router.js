@@ -36,13 +36,13 @@ router.get('/getCommodities', (req, res) => {
 });
 
 router.get('/getTickets/:ElePrefix', (req, res) => {
-  tickets = dataGen.getTickets(req.query.count,req.params.ElePrefix.toUpperCase());
+  tickets = dataGen.getTickets(req.query.count, req.params.ElePrefix.toUpperCase());
   res.json(tickets);
   // restApi.sendTickets(tickets);
 });
 
 router.get('/getTickets/:ElePrefix/:CommodityID', (req, res) => {
-  tickets = dataGen.getTickets(req.query.count,req.params.ElePrefix.toUpperCase(),req.params.CommodityID);
+  tickets = dataGen.getTickets(req.query.count, req.params.ElePrefix.toUpperCase(), req.params.CommodityID);
   res.json(tickets);
   // restApi.sendTickets(tickets);
 });
@@ -54,7 +54,7 @@ router.get('/getElevator', function (req, res) {
 });
 
 router.get('/getElevator/:ElePrefix', function (req, res) {
-  elevators = dataGen.getUpdateElevators("GRAN")
+  //elevators = dataGen.getUpdateElevators("GRAN")
   elevators = dataGen.getUpdateElevators(req.params.ElePrefix.toUpperCase());
   res.send(elevators);
   // restApi.sendTickets(elevators);
