@@ -45,7 +45,7 @@ router.get('/getElevator/:ElePrefix', function (req, res) {
 
 // define the home page route
 router.get('/', function(req, res) {
-  res.send('heyheyhey home page <br/><br/> /getTickets/:ElePrefix/:CommodityID?count=x <br/><br/> /getElevator/:ElePrefix <br/><br/> getCommodities');
+  res.send('heyheyhey home page <br/><br/>/getTickets/:ElePrefix<br/><br/> /getTickets/:ElePrefix/:CommodityID?count=x <br/><br/>/getElevator <br/><br/>/getElevator/:ElePrefix <br/><br/> getCommodities');
 });
 
 
