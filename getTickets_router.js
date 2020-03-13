@@ -12,13 +12,19 @@ router.get('/getTickets', (req, res) => {
 });
 
 router.get('/getCommodities', (req, res) => {
-  commos = dataGen.getUpdateCommodities(parseInt(req.query.count));
+  commos = dataGen.getUpdateCommodities(10);//parseInt(req.query.count)
   res.json(commos);
   // restApi.sendTickets(commos);
 });
 
-router.get('/getTickets/Elevator/:ElePrefix', (req, res) => {
+router.get('/getTickets/:ElePrefix', (req, res) => {
   tickets = dataGen.getTickets(req.query.count,req.params.ElePrefix.toUpperCase());
+  res.json(tickets);
+  // restApi.sendTickets(tickets);
+});
+
+router.get('/getTickets/:ElePrefix/:CommodityID', (req, res) => {
+  tickets = dataGen.getTickets(req.query.count,req.params.ElePrefix.toUpperCase(),req.params.CommodityID);
   res.json(tickets);
   // restApi.sendTickets(tickets);
 });
@@ -39,7 +45,7 @@ router.get('/getElevator/:ElePrefix', function (req, res) {
 
 // define the home page route
 router.get('/', function(req, res) {
-  res.send('heyheyhey home page <br/><br/> /getTickets/Elevator/:ElePrefix?count=x <br/><br/> /getElevator/:ElePrefix <br/><br/> getCommodities?count=x');
+  res.send('heyheyhey home page <br/><br/> /getTickets/:ElePrefix/:CommodityID?count=x <br/><br/> /getElevator/:ElePrefix <br/><br/> getCommodities');
 });
 
 

@@ -4,7 +4,7 @@ let faker = require('faker');
 /**
  * Generates a random ticket
  */
-function generateTicket(ElePrefix = "GRAN"){   
+function generateTicket(ElePrefix = "GRAN", CommodityID = null){   
     remarkAmount = Math.floor(Math.random() * 10);
     originalRemarks = [];
     for (let i = 0; i < remarkAmount; i++) {
@@ -16,11 +16,18 @@ function generateTicket(ElePrefix = "GRAN"){
             dock_unit: ((Math.random() * 10) + 1).toFixed(2)
         } 
     }
+
+    //set situation if there is or not  Commodity in argument
+    if(CommodityID == null){
+        commodityIdList = ["SB", "CO", "P", "W", "CA", "DP", "H", "FV", "O", "S"];
+    }else{
+        commodityIdList = [CommodityID];
+    }
     
-    commodityIdList = ["SB", "CO", "P", "W", "CA", "DP", "H", "FV", "O", "S"];
     // elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
     userIdList = ["K3523", "S1109", "Q4393", "L1432", "I8035", "Y4589", "H9653", "A3165", "C9487", "O6234"];
 
+    //combine prefix and number
     elevatorIdList = [];
     for(i=1; i<11;i++){
         elevatorIdList[i-1] = ElePrefix+"0"+i.toString()
@@ -41,7 +48,7 @@ function generateTicket(ElePrefix = "GRAN"){
     let ticket = {      
         id: faker.random.uuid(), 
         version: "1.1.0", 
-        commodity_id: commodityIdList[Math.floor(Math.random() * 10)],
+        commodity_id: commodityIdList[Math.floor(Math.random() * commodityIdList.length)],//changed to use comodity list length in random 
         elevator_id: elevatorIdList[Math.floor(Math.random() * 10)],
         display_id: faker.random.uuid(),
         identifier: faker.random.uuid(),
@@ -111,6 +118,7 @@ function generateSplit(ticketId, userId) {
     return splits;
 }
 
+//default generate elevator without argument
 function generateElevator(){
     elevators = [];
     elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
@@ -132,7 +140,7 @@ function generateElevator(){
     return elevators;
 }
 
-//used in package_update_elecators and will used for router
+//generage elevator
 function generateElevator(ElePrefix){
     elevators = [];
     
@@ -154,6 +162,9 @@ function generateElevator(ElePrefix){
     return elevators;
 }
 
+
+
+//generate comodity
 function generateCommodity(num = 10 , ElePrefix = "GRAN" ){
     
     commodity = [];
@@ -178,6 +189,7 @@ function generateCommodity(num = 10 , ElePrefix = "GRAN" ){
 
 }
 
+//package commodity to data
 function package_commodity(num, ElePrefix){
     updateCom = {
         'commodity': generateCommodity(num, ElePrefix)
@@ -190,7 +202,7 @@ function package_commodity(num, ElePrefix){
     return dataPackage
 }
 
-//will used for router
+//package elevator to data
 function package_update_elevators(ElePrefix){
     updateElevators = {
         'elevators': generateElevator(ElePrefix)
@@ -207,13 +219,13 @@ function package_update_elevators(ElePrefix){
  * Generates json object of specified number of tickets and their splits
  */
 
-function createTickets(numOfTickets, ElePrefix)
+function createTickets(numOfTickets, ElePrefix,CommodityID)
 {   
     tickets = [];
     allSplits = []; 
     elevatorList = generateElevator(); 
     for (let i = 0; i < numOfTickets; i++){
-        ticket = generateTicket(ElePrefix);
+        ticket = generateTicket(ElePrefix, CommodityID);
         splits = generateSplit(ticket.id, ticket.user_id);
         tickets.push(ticket);
         splits.forEach(s => {
@@ -266,15 +278,15 @@ function createTickets(numOfTickets, ElePrefix)
 
 
 
-module.exports.getTickets = function(numOfTickets,ElePrefix = "GRAN"){
-    return createTickets(numOfTickets, ElePrefix );
+module.exports.getTickets = function(numOfTickets,ElePrefix = "GRAN",CommodityID = null){
+    return createTickets(numOfTickets, ElePrefix, CommodityID );
 }
 
 module.exports.getUpdateElevators = function(ElePrefix){
     return package_update_elevators(ElePrefix);
 }
 
-module.exports.getUpdateCommodities = function(num){
+module.exports.getUpdateCommodities = function(num = 10){
     return package_commodity(num);
 }
 
