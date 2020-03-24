@@ -9,16 +9,20 @@ axios.defaults.headers.common['App-Company'] = 'capstone';
 axios.defaults.headers.common['App-Version'] = '1.0';
 axios.defaults.headers.common['Accept'] = 'application/json';
 
-
+//this method gets the response from centre 
 function getData(){
-    axios.post('https://centre-r2.scaleticket.net/api/v3/tickets')
-    .then(response => console.log(response.data)
-    );
+    return axios.post('https://centre-r2.scaleticket.net/api/v3/tickets')
 };
+
+//this manipulates the data by using response.data, we can rename this to whatever
+//is best, I'm just separating them for clarity
+function manipulate(){
+    getData().then(response => console.log(response.data));
+}
 
 
 module.exports.getData = function(){
     return getData();
 }
 
-getData();
+manipulate();
