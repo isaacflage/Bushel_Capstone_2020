@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const dataGen = require('./DataGeneration');
-const restApi = require('./RestAPI');
+const restApi = require('./SendAPI');
 
 //tracks total amount of tickets
 let ticketCount = 0;

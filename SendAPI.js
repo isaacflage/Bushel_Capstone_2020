@@ -1,9 +1,9 @@
-require('dotenv').config({path:'./secrets.env'})
-const dotenv = require('dotenv')
+require('dotenv').config({path:'./secrets.env'});
+const dotenv = require('dotenv');
 const dataGen = require('./DataGeneration.js');
 const axios = require('axios').default;
 
-axios.defaults.headers.common['Authorization'] = process.env.AUTH_TOKEN;
+axios.defaults.headers.common['Authorization'] = process.env.SEND_AUTH_TOKEN;
 axios.defaults.headers.common['X-Company-Slug'] = 'capstone';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
