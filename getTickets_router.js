@@ -2,8 +2,10 @@ var express = require('express');
 var router = express.Router();
 const dataGen = require('./DataGeneration');
 const restApi = require('./SendAPI');
+const centreApi = require('./CentreAPI');
 
 //tracks total amount of tickets
+let ticketsWeCreated = []
 let ticketCount = 0;
 let responseCode = '';
 let ticketRunCount = 0;
@@ -13,6 +15,7 @@ let statusRunCount = 0;
 router.get('/getTickets', (req, res) => {
   tickets = dataGen.getTickets(req.query.count);
   res.json(tickets);
+  ticketsWeCreated.push(tickets);
   
   //restApi.sendTickets(tickets);
   
@@ -51,13 +54,33 @@ router.get('/getElevator', function (req, res) {
   elevators = dataGen.getUpdateElevators("GRAN")
   res.send(elevators);
   // restApi.sendTickets(elevators);
-});
+}); 
 
 router.get('/getElevator/:ElePrefix', function (req, res) {
   //elevators = dataGen.getUpdateElevators("GRAN")
   elevators = dataGen.getUpdateElevators(req.params.ElePrefix.toUpperCase());
   res.send(elevators);
   // restApi.sendTickets(elevators);
+});
+
+router.get('/getCentreTickets', async function (req, res) {
+  // load data from "stored" tickets that were sent into the router = ticketsWeCreated
+
+  // load data from "centre" api
+  let response = await centreApi.getData();
+  // let ticketsFromCentre = response.data
+
+  // let allTicketsValid = validate(ticketsWeCreated, response.data)
+
+  // if (allTicketsValid) {
+  //   ticketsWeCreated = []
+  //   return res.send({ok: true })
+  // }
+
+  res.send(response.data);
+  // .then(response => {
+  //   res.send(response.data);
+  // }); 
 });
 
 

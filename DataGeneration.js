@@ -215,6 +215,7 @@ function package_update_elevators(ElePrefix){
     return dataPackage
 }
 
+
 /**
  * Generates json object of specified number of tickets and their splits
  */

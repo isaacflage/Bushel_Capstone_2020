@@ -25,4 +25,3 @@ module.exports.getData = function(){
     return getData();
 }
 
-manipulate();
