@@ -3,6 +3,7 @@ var router = express.Router();
 const dataGen = require('./DataGeneration');
 const restApi = require('./SendAPI');
 const centreApi = require('./CentreAPI');
+const validation = require('./Validation');
 
 //tracks total amount of tickets
 let ticketsWeCreated = []
@@ -17,7 +18,7 @@ router.get('/getTickets', (req, res) => {
   res.json(tickets);
   ticketsWeCreated.push(tickets);
   
-  //restApi.sendTickets(tickets);
+  restApi.sendTickets(tickets);
   
   ticketRunCount++;
   responseCode += res.statusMessage;
@@ -68,14 +69,14 @@ router.get('/getCentreTickets', async function (req, res) {
 
   // load data from "centre" api
   let response = await centreApi.getData();
-  // let ticketsFromCentre = response.data
+  let ticketsFromCentre = response.data
 
-  // let allTicketsValid = validate(ticketsWeCreated, response.data)
+  let allTicketsValid = validate(ticketsWeCreated, ticketsFromCentre);
 
-  // if (allTicketsValid) {
-  //   ticketsWeCreated = []
-  //   return res.send({ok: true })
-  // }
+  if (allTicketsValid) {
+    ticketsWeCreated = [];
+    return res.send("nice");
+  }
 
   res.send(response.data);
   // .then(response => {
