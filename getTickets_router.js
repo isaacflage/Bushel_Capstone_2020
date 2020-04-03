@@ -71,7 +71,7 @@ router.get('/getCentreTickets', async function (req, res) {
   let response = await centreApi.getData();
   let ticketsFromCentre = response.data
 
-  let allTicketsValid = validate(ticketsWeCreated, ticketsFromCentre);
+  let allTicketsValid = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
   if (allTicketsValid) {
     ticketsWeCreated = [];

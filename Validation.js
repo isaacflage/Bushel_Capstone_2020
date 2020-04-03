@@ -1,3 +1,5 @@
+ERRORS = [];
+
 function validate(ticketsWeCreated, ticketsFromCentre){
     //ticket arrays
     ticketsArrayOrigin = ticketsWeCreated.data[1]["update-tickets"].tickets;
@@ -23,6 +25,10 @@ function validate(ticketsWeCreated, ticketsFromCentre){
     });
 
     return hasIds;
+
+}
+
+function validateTicket(ticketWeCreated, ticketFromCentre){
 
 }
 
