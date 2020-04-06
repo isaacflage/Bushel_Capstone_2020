@@ -72,10 +72,15 @@ router.get('/getCentreTickets', async function (req, res) {
   // load data from "stored" tickets that were sent into the router = ticketsWeCreated
 
   // load data from "centre" api
-  let response = await centreApi.getData();
-  let ticketsFromCentre = response.data;
+  let pageResponse = await centreApi.getData(1);
+  let pages = pageResponse.data.meta.pagination['total_pages'];
 
-  console.log(ticketsWeCreated);
+  ticketsFromCentre = [];
+
+  for (let i = 1; i <= pages; i++) {
+    let response = await centreApi.getData(i);
+    ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
+  }
 
   let allTicketsValid = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
@@ -86,11 +91,7 @@ router.get('/getCentreTickets', async function (req, res) {
   else {
     res.send('no');
   }
-
-  
-  // .then(response => {
-  //   res.send(response.data);
-  // }); 
+ 
 });
 
 

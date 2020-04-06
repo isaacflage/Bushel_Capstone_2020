@@ -3,7 +3,7 @@ ERRORS = [];
 function validate(ticketsWeCreated, ticketsFromCentre){
     //ticket arrays
     ticketsArrayOrigin = ticketsWeCreated;
-    ticketsArrayCentre = ticketsFromCentre.data;
+    ticketsArrayCentre = ticketsFromCentre;
 
     //checks id vs remote id
     hasIds = true;
