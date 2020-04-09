@@ -1,13 +1,11 @@
-ERRORS = [];
-
 function validate(ticketsWeCreated, ticketsFromCentre){
+    ERRORS = [];
+    
     //ticket arrays
     ticketsArrayOrigin = ticketsWeCreated;
     ticketsArrayCentre = ticketsFromCentre;
 
     //checks id vs remote id
-    hasIds = true;
-    
     ids = [];
     ticketsArrayOrigin.forEach(i => {
         ids.push(i["display_id"]);  
@@ -20,12 +18,13 @@ function validate(ticketsWeCreated, ticketsFromCentre){
 
     ids.forEach(i => {
         if(!remoteIds.includes(i)){
-            hasIds = false; 
+            ERRORS.push({
+                id: i,
+                message: 'Not found in centre db'});    
         }
     });
 
-    return hasIds;
-
+    return ERRORS;
 }
 
 function validateTicket(ticketWeCreated, ticketFromCentre){
@@ -35,4 +34,3 @@ function validateTicket(ticketWeCreated, ticketFromCentre){
 module.exports.validate = function(ticketsWeCreated, ticketsFromCentre){
     return validate(ticketsWeCreated, ticketsFromCentre);
 }
-

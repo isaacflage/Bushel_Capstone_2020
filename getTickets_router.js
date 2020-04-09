@@ -22,7 +22,7 @@ router.get('/getTickets', (req, res) => {
     ticketsWeCreated.push(i);  
   });
   
-  restApi.sendTickets(tickets);
+  //restApi.sendTickets(tickets);
   
   ticketRunCount++;
   responseCode += res.statusMessage;
@@ -82,14 +82,14 @@ router.get('/getCentreTickets', async function (req, res) {
     ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
   }
 
-  let allTicketsValid = validation.validate(ticketsWeCreated, ticketsFromCentre);
+  let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
-  if (allTicketsValid) {
+  if (errors.length == 0) {
     ticketsWeCreated = [];
     res.send('nice');
   }
   else {
-    res.send('no');
+    res.send(errors);
   }
  
 });
