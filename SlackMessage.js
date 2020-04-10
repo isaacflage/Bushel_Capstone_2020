@@ -8,11 +8,11 @@ var slack = new Slack(webHook);
 var channel = process.argv[2];
 var message = process.argv[3];
 
-console.log('Sending message to channel', channel);
+console.log('Sending message to' + channel, 'channel');
 
 slack.send({
-    //message will be updated to send 
     text: 'it works!! (this is where error messages will go)',
+    //channel is whatever is input into console for now
     channel: '#' + channel
     //username: username
 });
@@ -20,8 +20,8 @@ slack.send({
  * 
  * TO RUN:
  * npm install node-slack
- * node SlackMessage <channel> <message>
- * where channel is desired channel. message must be one word
+ * node SlackMessage <channel>
+ * where channel is desired channel
  * example: node SlackMessage general helloWorld!
  * should work with any existing channel
  * https://ajlopez.wordpress.com/2015/02/06/enviando-mensaje-a-slack-con-javascriptnode-js/
