@@ -1,5 +1,7 @@
 //export 
-
+module.exports.slackSendMsg = function(id){
+    slackSendMsg(id);
+}
 
 require('dotenv').config({path:'./slack.env'})
 //must generate a new incoming webhook, cant figure out how to post from test app anymore
@@ -8,17 +10,22 @@ var webHook = process.env.WEB_HOOK;
 var Slack = require('node-slack');
 var slack = new Slack(webHook);
 
-var channel = process.argv[2];
+// var channel = process.argv[2];
+var channel = '#random';
 //var message = process.argv[3];
 
 console.log('Sending message to ' + channel, 'channel');
 
-slack.send({
-    text: 'it works!! (this is where error messages will go)',
-    //channel is whatever is input into console for now
-    channel: '#' + channel
-    //username: username
-});
+// slack.send({
+//     text: 'it works!! (this is where error messages will go)',
+//     //channel is whatever is input into console for now
+//     channel: '#' + channel
+//     //username: username
+// });
+
+function slackSendMsg(id){
+    slack.send({text: 'error ticket:'+id, channel:'#random'});
+}
 /**add to readme, fool!
  * 
  * TO RUN:
