@@ -1,15 +1,9 @@
-//require('dotenv').config({path:'./slack.env'})
-
-//var domain = process.env.SLACK_DOMAIN;
-//var token = process.env.SLACK_TOKEN;
-//var token = xoxp-1042009124994-1042009125362-1052364235766-f26fe66ed8f89c22bf1f4c0dd9f97d01;
-
-
-var webHookURL = 'https://hooks.slack.com/services/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';
+require('dotenv').config({path:'./slack.env'})
+//must generate a new incoming webhook, cant figure out how to post from test app anymore
+var webHook = process.env.WEB_HOOK;
 
 var Slack = require('node-slack');
- 
-var slack = new Slack(webHookURL);
+var slack = new Slack(webHook);
 
 var channel = process.argv[2];
 var message = process.argv[3];
@@ -21,3 +15,11 @@ slack.send({
     channel: '#' + channel
     //username: username
 });
+/**
+ * TO RUN:
+ * 
+ * node SlackMessage <channel> <message>
+ * 
+ * where channel is desired channel. message must be one word
+ * example: node SlackMessage general helloWorld!
+ */
