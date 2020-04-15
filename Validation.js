@@ -6,22 +6,25 @@ function validate(ticketsWeCreated, ticketsFromCentre){
     ticketsArrayCentre = ticketsFromCentre;
 
     //checks id vs remote id
-    ids = [];
-    ticketsArrayOrigin.forEach(i => {
-        ids.push(i["display_id"]);  
-    });
+    // ids = [];
+    // ticketsArrayOrigin.forEach(i => {
+    //     ids.push(i["id"]);  
+    // });
 
-    remoteIds = [];
-    ticketsArrayCentre.forEach(i => {
-        remoteIds.push(i["remote_id"]);
-    });
+    // remoteIds = [];
+    // ticketsArrayCentre.forEach(i => {
+    //     remoteIds.push(i["remote_id"]);
+    // });
 
-    ids.forEach(i => {
-        if(!remoteIds.includes(i)){
+    ticketsArrayOrigin.forEach(originTicket => {
+        let foundTicket = ticketsArrayCentre.find(centreTicket => centreTicket.remote_id == originTicket.id)
+        if(!foundTicket){
             ERRORS.push({
-                id: i,
-                message: 'Not found in centre db'});    
+                id: originTicket.id,
+                message: 'Not found in centre db'});  
+            return;  
         }
+        validateTicket(originTicket, foundTicket);
     });
 
     return ERRORS;

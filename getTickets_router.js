@@ -22,7 +22,7 @@ router.get('/getTickets', (req, res) => {
     ticketsWeCreated.push(i);  
   });
   
-  //restApi.sendTickets(tickets);
+  restApi.sendTickets(tickets);
   
   ticketRunCount++;
   responseCode += res.statusMessage;
@@ -81,6 +81,9 @@ router.get('/getCentreTickets', async function (req, res) {
     let response = await centreApi.getData(i);
     ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
   }
+
+  console.log(ticketsWeCreated);
+  console.log(ticketsFromCentre);
 
   let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
