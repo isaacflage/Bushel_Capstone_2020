@@ -26,6 +26,7 @@ console.log('Sending message to ' + channel, 'channel');
 function slackSendMsg(id){
     slack.send({text: 'error ticket:'+id, channel:'#random'});
 }
+<<<<<<< Updated upstream
 /**add to readme, fool!
  * 
  * TO RUN:
@@ -40,3 +41,5 @@ function slackSendMsg(id){
  * i swear i didnt change it and it just stopped working (something to do with token instead of webhook probably)
  * also figure out how to send a concatanated string instead of just one word (json formatting)
  */
+=======
+>>>>>>> Stashed changes
