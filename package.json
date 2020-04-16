@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/isaacflage/Bushel_Capstone_2020#readme",
   "dependencies": {
+    "@slack/events-api": "^2.3.2",
+    "@slack/web-api": "^5.8.0",
     "axios": "^0.19.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
