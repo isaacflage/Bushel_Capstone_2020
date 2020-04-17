@@ -44,18 +44,66 @@ function validateTicket(ticketWeCreated, ticketFromCentre){
     }
     */
 
+    //------------------------comparing weights------------------------------
+    //net amount
     if (ticketFromCentre.net_amount != ticketWeCreated.primary_net_weight){
         FIELD_ERRORS.push({
-            field_name: 'net_weight',
+            field_name: 'primary_net_weight' ,
              expected: ticketWeCreated.primary_net_weight, 
              recieved: ticketFromCentre.net_amount
         });
             
     }   
+    //net weight
+    if (ticketFromCentre.net_weight != ticketWeCreated.secondary_net_weight){
+        FIELD_ERRORS.push({
+            field_name: 'secondary_net_weight',
+             expected: ticketWeCreated.secondary_net_weight, 
+             recieved: ticketFromCentre.net_weight
+        });
+            
+    }  
+    //tare weight
+    if (ticketFromCentre.tare_weight != ticketWeCreated.secondary_tare_weight){
+        FIELD_ERRORS.push({
+            field_name: 'secondary_tare_weight',
+             expected: ticketWeCreated.secondary_tare_weight, 
+             recieved: ticketFromCentre.tare_weight
+        });
+            
+    }  
+    //gross weight
+    if (ticketFromCentre.gross_weight != ticketWeCreated.secondary_gross_weight){
+        FIELD_ERRORS.push({
+            field_name: 'secondary_gross_weight',
+             expected: ticketWeCreated.secondary_gross_weight, 
+             recieved: ticketFromCentre.gross_weight
+        });
+            
+    }  
 
+    //--------------------------comparing anything else---------------------------------
+    //crop name
+    if (ticketFromCentre.crop_name != ticketWeCreated.commodity_id){
+        FIELD_ERRORS.push({
+            field_name: 'commodity_id',
+             expected: ticketWeCreated.commodity_id, 
+             recieved: ticketFromCentre.crop_name
+        });
+            
+    }  
 
+    //crop amount uom
+    if (ticketFromCentre.crop_amount_uom != ticketWeCreated.primary_weight_uom){
+        FIELD_ERRORS.push({
+            field_name: 'primary_weight_uom',
+             expected: ticketWeCreated.primary_weight_uom, 
+             recieved: ticketFromCentre.crop_amount_uom
+        });
+            
+    }  
 
-
+    //pushing errors to our ERRORS array
     if (FIELD_ERRORS.length != 0){
         ERRORS.push({
             id: ticketWeCreated.id,
