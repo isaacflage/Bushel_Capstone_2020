@@ -33,7 +33,57 @@ function validate(ticketsWeCreated, ticketsFromCentre){
     return ERRORS;
 }
 
+const remove_comma = (value) => {
+    return value.replace(",", "");
+}
+const parse_float = (value) => {
+    return parseFloat(value);
+}
+const to_uppercase = (value) => {
+    return value.toUpperCase();
+}
+let validationSchema = [
+    {
+        sourceFieldName: "net_weight",
+        apiFieldName: "secondary_net_weight",
+        sourceTransform: remove_comma,
+        apiFieldTransfrom: parse_float
+
+    },
+    {
+        sourceFieldName: "tare_weight",
+        apiFieldName: "secondary_tare_weight",
+        sourceTransform: remove_comma,
+        apiFieldTransfrom: parse_float
+
+    },
+    {
+        sourceFieldName: "gross_weight",
+        apiFieldName: "secondary_gross_weight",
+        sourceTransform: remove_comma,
+        apiFieldTransfrom: parse_float
+
+    },
+    {
+        sourceFieldName: "net_amount",
+        apiFieldName: "primary_net_weight",
+        sourceTransform: remove_comma,
+        apiFieldTransfrom: parse_float
+
+    },
+    {
+        sourceFieldName: "crop_name",
+        apiFieldName: "commodity_id",
+    },
+    {
+        sourceFieldName: "crop_amount_uom",
+        apiFieldName: "primary_weight_uom",
+        sourceTransform: to_uppercase
+    }
+];
+
 function validateTicket(ticketWeCreated, ticketFromCentre){
+    
     FIELD_ERRORS = [];
 /*
     if(ticketFromCentre.net_amount == null){
@@ -43,7 +93,19 @@ function validateTicket(ticketWeCreated, ticketFromCentre){
          });       
     }
     */
+    validationSchema.forEach(rule => {
+        let sourceValue = rule.sourceTransform ? rule.sourceTransform(ticketFromCentre[rule.sourceFieldName]): ticketFromCentre[rule.sourceFieldName] 
+        let apiValue = rule.apiFieldTransfrom ? rule.apiFieldTransfrom(ticketWeCreated[rule.apiFieldName]): ticketWeCreated[rule.apiFieldName]
+        if (sourceValue != apiValue){
+            FIELD_ERRORS.push({
+                field_name: rule.sourceFieldName,
+                expected: sourceValue,
+                recieved: apiValue
+            })
+        }
+    })
 
+    /*
     //creating strings to prevent false errors due to commas or trailing zeros
     var net_weight = ticketFromCentre.net_weight.replace(",", "");
     var tare_weight = ticketFromCentre.tare_weight.replace(",", "");
@@ -115,6 +177,8 @@ function validateTicket(ticketWeCreated, ticketFromCentre){
             
     }  
 
+    */
+
     //pushing errors to our ERRORS array
     if (FIELD_ERRORS.length != 0){
         ERRORS.push({
@@ -185,11 +249,11 @@ validateTicket({
     crop_primary_measure: 'amount',
     crop_weight_uom: 'kgs',
     gross_weight: '42,136.64',
-    net_amount: '301.76',
+    net_amount: '301.6',
     net_weight: '27,447.12',
     tare_weight: '14,675.4',
     configurable_field_value: ''
   })
 
-  console.log(JSON.stringify(ERRORS));
+  console.log(JSON.stringify(ERRORS, null, 2));
  
