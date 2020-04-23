@@ -1,21 +1,11 @@
 ERRORS = [];
+
 function validate(ticketsWeCreated, ticketsFromCentre){
     ERRORS = [];
     
     //ticket arrays
     ticketsArrayOrigin = ticketsWeCreated;
     ticketsArrayCentre = ticketsFromCentre;
-
-    //checks id vs remote id
-    // ids = [];
-    // ticketsArrayOrigin.forEach(i => {
-    //     ids.push(i["id"]);  
-    // });
-
-    // remoteIds = [];
-    // ticketsArrayCentre.forEach(i => {
-    //     remoteIds.push(i["remote_id"]);
-    // });
 
     ticketsArrayOrigin.forEach(originTicket => {
         let foundTicket = ticketsArrayCentre.find(centreTicket => centreTicket.remote_id == originTicket.id)
@@ -28,11 +18,10 @@ function validate(ticketsWeCreated, ticketsFromCentre){
         validateTicket(originTicket, foundTicket);
     });
 
-
-
     return ERRORS;
 }
 
+//transformation methods for each of the fields below
 const remove_comma = (value) => {
     return value.replace(",", "");
 }
@@ -42,142 +31,64 @@ const parse_float = (value) => {
 const to_uppercase = (value) => {
     return value.toUpperCase();
 }
+
+//list of each of the field pairs and any transformations they need
 let validationSchema = [
     {
-        sourceFieldName: "net_weight",
-        apiFieldName: "secondary_net_weight",
-        sourceTransform: remove_comma,
-        apiFieldTransfrom: parse_float
+        sourceFieldName: "secondary_net_weight",
+        centreFieldName: "net_weight",
+        sourceTransform: parse_float,
+        centreFieldTransform: remove_comma
 
     },
     {
-        sourceFieldName: "tare_weight",
-        apiFieldName: "secondary_tare_weight",
-        sourceTransform: remove_comma,
-        apiFieldTransfrom: parse_float
+        sourceFieldName: "secondary_tare_weight",
+        centreFieldName: "tare_weight",
+        sourceTransform: parse_float,
+        centreFieldTransform: remove_comma
 
     },
     {
-        sourceFieldName: "gross_weight",
-        apiFieldName: "secondary_gross_weight",
-        sourceTransform: remove_comma,
-        apiFieldTransfrom: parse_float
+        sourceFieldName: "secondary_gross_weight",
+        centreFieldName: "gross_weight",
+        sourceTransform: parse_float,
+        centreFieldTransform: remove_comma
 
     },
     {
-        sourceFieldName: "net_amount",
-        apiFieldName: "primary_net_weight",
-        sourceTransform: remove_comma,
-        apiFieldTransfrom: parse_float
+        sourceFieldName: "primary_net_weight",
+        centreFieldName: "net_amount",
+        sourceTransform: parse_float,
+        centreFieldTransform: remove_comma
 
     },
     {
-        sourceFieldName: "crop_name",
-        apiFieldName: "commodity_id",
+        sourceFieldName: "commodity_id",
+        centreFieldName: "crop_name"
     },
     {
-        sourceFieldName: "crop_amount_uom",
-        apiFieldName: "primary_weight_uom",
-        sourceTransform: to_uppercase
+        sourceFieldName: "primary_weight_uom",
+        centreFieldName: "crop_amount_uom",
+        centreFieldTransform: to_uppercase
     }
 ];
 
 function validateTicket(ticketWeCreated, ticketFromCentre){
     
     FIELD_ERRORS = [];
-/*
-    if(ticketFromCentre.net_amount == null){
-         ERRORS.push({
-             id: ticketWeCreated.id,
-             message: 'Net Amount is null'
-         });       
-    }
-    */
+
     validationSchema.forEach(rule => {
-        let sourceValue = rule.sourceTransform ? rule.sourceTransform(ticketFromCentre[rule.sourceFieldName]): ticketFromCentre[rule.sourceFieldName] 
-        let apiValue = rule.apiFieldTransfrom ? rule.apiFieldTransfrom(ticketWeCreated[rule.apiFieldName]): ticketWeCreated[rule.apiFieldName]
-        if (sourceValue != apiValue){
+        let sourceValue = rule.sourceTransform ? rule.sourceTransform(ticketWeCreated[rule.sourceFieldName]) : ticketWeCreated[rule.sourceFieldName] 
+        let centreValue = rule.centreFieldTransform ? rule.centreFieldTransform(ticketFromCentre[rule.centreFieldName]) : ticketFromCentre[rule.centreFieldName]
+        if (sourceValue != centreValue){
             FIELD_ERRORS.push({
                 field_name: rule.sourceFieldName,
                 expected: sourceValue,
-                recieved: apiValue
+                recieved: centreValue
             })
         }
     })
 
-    /*
-    //creating strings to prevent false errors due to commas or trailing zeros
-    var net_weight = ticketFromCentre.net_weight.replace(",", "");
-    var tare_weight = ticketFromCentre.tare_weight.replace(",", "");
-    var gross_weight = ticketFromCentre.gross_weight.replace(",", "");
-    var net_amount = ticketFromCentre.net_amount.replace(",", "");
-    var crop_amount_uom = ticketFromCentre.crop_amount_uom.toUpperCase();
-    var secondary_tare_weight = parseFloat(ticketWeCreated.secondary_tare_weight);
-    var primary_net_weight = parseFloat(ticketWeCreated.primary_net_weight);
-    var secondary_net_weight = parseFloat(ticketWeCreated.secondary_net_weight);
-    var secondary_gross_weight = parseFloat(ticketWeCreated.secondary_gross_weight);
-
-
-    //------------------------comparing weights------------------------------
-    //net amount
-    if (net_amount != primary_net_weight){
-        FIELD_ERRORS.push({
-            field_name: 'primary_net_weight' ,
-             expected: primary_net_weight, 
-             recieved: net_amount
-        });
-            
-    }   
-    //net weight
-    if (net_weight != secondary_net_weight){
-        FIELD_ERRORS.push({
-            field_name: 'secondary_net_weight',
-             expected: secondary_net_weight, 
-             recieved: net_weight
-        });
-            
-    }  
-    //tare weight
-    if (tare_weight != secondary_tare_weight){
-        FIELD_ERRORS.push({
-            field_name: 'secondary_tare_weight',
-             expected: secondary_tare_weight, 
-             recieved: tare_weight
-        });
-            
-    }  
-    //gross weight
-    if (gross_weight != secondary_gross_weight){
-        FIELD_ERRORS.push({
-            field_name: 'secondary_gross_weight',
-             expected: secondary_gross_weight, 
-             recieved: gross_weight
-        });
-            
-    }  
-
-    //--------------------------comparing anything else---------------------------------
-    //crop name
-    if (ticketFromCentre.crop_name != ticketWeCreated.commodity_id){
-        FIELD_ERRORS.push({
-            field_name: 'commodity_id',
-             expected: ticketWeCreated.commodity_id, 
-             recieved: ticketFromCentre.crop_name
-        });
-            
-    }  
-
-    //crop amount uom
-    if (crop_amount_uom != ticketWeCreated.primary_weight_uom){
-        FIELD_ERRORS.push({
-            field_name: 'primary_weight_uom',
-             expected: ticketWeCreated.primary_weight_uom, 
-             recieved: crop_amount_uom
-        });
-            
-    }  
-
-    */
 
     //pushing errors to our ERRORS array
     if (FIELD_ERRORS.length != 0){
@@ -194,6 +105,8 @@ module.exports.validate = function(ticketsWeCreated, ticketsFromCentre){
     return validate(ticketsWeCreated, ticketsFromCentre);
 }
 
+
+//testing
 validateTicket({
     id: '5df5ff8d-c35a-4bab-9c53-6d74615b56a2',
     version: '1.1.0',
@@ -243,15 +156,15 @@ validateTicket({
     weigh_in_at: '2020-04-15T08:09:19+00:00',
     weigh_out_at: '2020-04-14T21:38:33+00:00',
     configurable_field_label: null,
-    crop_amount_uom: 'bu',
+    crop_amount_uom: 'bu bu',
     crop_id: 0,
-    crop_name: 'H',
+    crop_name: 'Ha',
     crop_primary_measure: 'amount',
     crop_weight_uom: 'kgs',
-    gross_weight: '42,136.64',
+    gross_weight: '42,136.60',
     net_amount: '301.6',
-    net_weight: '27,447.12',
-    tare_weight: '14,675.4',
+    net_weight: '27,47.12',
+    tare_weight: '4,675.4',
     configurable_field_value: ''
   })
 
