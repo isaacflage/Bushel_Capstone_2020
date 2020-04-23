@@ -50,7 +50,7 @@ function generateTicket(ElePrefix = "GRAN", CommodityID = null){
         version: "1.1.0", 
         commodity_id: commodityIdList[Math.floor(Math.random() * commodityIdList.length)],//changed to use comodity list length in random 
         elevator_id: elevatorIdList[Math.floor(Math.random() * 10)],
-        display_id: faker.random.uuid(),
+        //display_id: faker.random.uuid(),
         identifier: faker.random.uuid(),
         user_id: (Math.random() < 0.1) ? userIdList[Math.floor(Math.random() * 10)] : null,
         created_at: faker.date.recent(),

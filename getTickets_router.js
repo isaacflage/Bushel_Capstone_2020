@@ -6,7 +6,7 @@ const centreApi = require('./CentreAPI');
 const validation = require('./Validation');
 
 //tracks total amount of tickets
-let ticketsWeCreated = []
+let ticketsWeCreated = [];
 let ticketCount = 0;
 let responseCode = '';
 let ticketRunCount = 0;
@@ -15,8 +15,12 @@ let statusRunCount = 0;
 //query router
 router.get('/getTickets', (req, res) => {
   tickets = dataGen.getTickets(req.query.count);
-  res.json(tickets);
-  ticketsWeCreated.push(tickets);
+  res.send(tickets);
+  
+  ticketArray = tickets.data[1]['update-tickets'].tickets;
+  ticketArray.forEach(i => {
+    ticketsWeCreated.push(i);  
+  });
   
   restApi.sendTickets(tickets);
   
@@ -68,20 +72,29 @@ router.get('/getCentreTickets', async function (req, res) {
   // load data from "stored" tickets that were sent into the router = ticketsWeCreated
 
   // load data from "centre" api
-  let response = await centreApi.getData();
-  let ticketsFromCentre = response.data
+  let pageResponse = await centreApi.getData(1);
+  let pages = pageResponse.data.meta.pagination['total_pages'];
 
-  let allTicketsValid = validation.validate(ticketsWeCreated, ticketsFromCentre);
+  ticketsFromCentre = [];
 
-  if (allTicketsValid) {
-    ticketsWeCreated = [];
-    return res.send("nice");
+  for (let i = 1; i <= pages; i++) {
+    let response = await centreApi.getData(i);
+    ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
   }
 
-  res.send(response.data);
-  // .then(response => {
-  //   res.send(response.data);
-  // }); 
+  console.log(ticketsWeCreated);
+  console.log(ticketsFromCentre);
+
+  let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
+
+  if (errors.length == 0) {
+    ticketsWeCreated = [];
+    res.send('nice');
+  }
+  else {
+    res.send(errors);
+  }
+ 
 });
 
 
