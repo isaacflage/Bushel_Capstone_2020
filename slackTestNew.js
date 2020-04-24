@@ -14,7 +14,7 @@ function slackSendMsg(id){
         try {
             await web.chat.postMessage({
                 channel: '#random',
-                text: 'error id is: '+id,
+                text:  id,
             }); 
         } catch (error) {
             console.log(error);

@@ -1,3 +1,13 @@
+//slack variables
+/**
+ const {WebClient} = require('@slack/web-api');
+require('dotenv').config({path:'./slack.env'});
+const dotenv = require('dotenv');
+const token = process.env.SLACK_TOKEN;
+const web = new WebClient(token);
+**/
+const slack = require('./slackTestNew.js');
+
 ERRORS = [];
 
 function validate(ticketsWeCreated, ticketsFromCentre){
@@ -168,5 +178,30 @@ validateTicket({
     configurable_field_value: ''
   })
 
-  console.log(JSON.stringify(ERRORS, null, 2));
+//console.log(JSON.stringify(ERRORS, null, 2));
+
+  
+var i, msg1 = '', x;
+for (i=0; i<ERRORS.length; i++) {
+    msg1 = "error id: " + ERRORS[i].id + '\n\n';
+    for (x=0; x<FIELD_ERRORS.length; x++) {
+        msg1 += "field name: " + FIELD_ERRORS[x].field_name + '\n';
+        msg1 += "expected: " + FIELD_ERRORS[x].expected + '\n';
+        msg1 += "recieved: " + FIELD_ERRORS[x].recieved + '\n\n';
+    }
+    
+}
+//console.log(msg1);
+slack.slackSendMsg(msg1);
+//console.log(msg2);
+
+
+
+
+
+
+
+  
+  
+  
  
