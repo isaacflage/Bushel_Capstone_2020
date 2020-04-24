@@ -1,12 +1,4 @@
-//slack variables
-/**
- const {WebClient} = require('@slack/web-api');
-require('dotenv').config({path:'./slack.env'});
-const dotenv = require('dotenv');
-const token = process.env.SLACK_TOKEN;
-const web = new WebClient(token);
-**/
-const slack = require('./slackTestNew.js');
+
 
 ERRORS = [];
 
@@ -178,12 +170,10 @@ validateTicket({
     configurable_field_value: ''
   })
 
-//console.log(JSON.stringify(ERRORS, null, 2));
+console.log(JSON.stringify(ERRORS, null, 2));
 
   
 
-//console.log(msg2);
-slack.sendErrorMsg(ERRORS)
 
 
 
