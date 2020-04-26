@@ -93,6 +93,7 @@ router.get('/getCentreTickets', async function (req, res) {
   }
   else {
     res.send(errors);
+    //call send slack error message here
   }
  
 });

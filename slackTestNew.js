@@ -1,5 +1,5 @@
-const {WebClient} = require('@slack/web-api');
-require('dotenv').config({path:'./slack.env'});
+const { WebClient } = require('@slack/web-api');
+require('dotenv').config({ path: './slack.env' });
 const dotenv = require('dotenv');
 
 
@@ -9,10 +9,10 @@ const web = new WebClient(token);
 
 
 //send one tickets error one time
-function slackSendMsg(OneTicketMsg){
+function slackSendMsg(OneTicketMsg) {
     (async () => {
         try {
-            await web.chat.postMessage(OneTicketMsg); 
+            await web.chat.postMessage(OneTicketMsg);
         } catch (error) {
             console.log(error);
         }
@@ -22,7 +22,7 @@ function slackSendMsg(OneTicketMsg){
 
 
 //format one ticket
-function formatTicket(ticket){
+function formatTicket(ticket) {
     var formated = {
         channel: '#random',
         "blocks": [
@@ -30,7 +30,7 @@ function formatTicket(ticket){
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "*Error Id: `"+ticket.id+"`*\n Message: "+ ticket.message
+                    "text": "*Error Id: `" + ticket.id + "`*\n Message: " + ticket.message
                 },
                 "accessory": {
                     "type": "button",
@@ -44,53 +44,56 @@ function formatTicket(ticket){
             }
         ]
     }
-    
+
     //format fields
-    var k;
-    for( k = 0; k<ticket.fields.length; k++){
-        formated.blocks.push({
-            "type": "section",
-            "text": {
-                "type": "mrkdwn",
-                "text": "*Field name: "+ticket.fields[k].field_name+"*\n>expected: `"+ticket.fields[k].expected+"`\n> recieved: `"+ticket.fields[k].recieved+"`"
-            }
-        });
+    if (ticket.fields) {
+        var k;
+        for (k = 0; k < ticket.fields.length; k++) {
+            formated.blocks.push({
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "*Field name: " + ticket.fields[k].field_name + "*\n>expected: `" + ticket.fields[k].expected + "`\n> recieved: `" + ticket.fields[k].recieved + "`"
+                }
+            });
+        }
     }
 
     //add end thing
     formated.blocks.push(
         {
             "type": "divider"
-        },{
-            "type": "context",
-            "elements": [
-                {
-                    "type": "mrkdwn",
-                    "text": "No votes"
-                }
-            ]
-        }
+        }, {
+        "type": "context",
+        "elements": [
+            {
+                "type": "mrkdwn",
+                "text": "No votes"
+            }
+        ]
+    }
     );
 
-     return formated;       
+    return formated;
 
 }
 
 //method that used in validation, argument is error json object
-function sendErrorMsg(errors){
+function sendErrorMsg(errors) {
+
     var i;
-    for (i=0; i<errors.length; i++) {
+    for (i = 0; i < errors.length; i++) {
         slackSendMsg(formatTicket(errors[i]));
-        
+
     }
-    
+
 }
 
 
 //export 
-module.exports.slackSendMsg = function(id){
+module.exports.slackSendMsg = function (id) {
     slackSendMsg(id);
 }
-module.exports.sendErrorMsg = function(errors){
+module.exports.sendErrorMsg = function (errors) {
     sendErrorMsg(errors);
 }
