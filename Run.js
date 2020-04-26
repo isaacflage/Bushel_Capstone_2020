@@ -8,23 +8,20 @@ const slack = require('./slackTestNew');
 async function run(numOfTickets) {
     let retries = 0;
 
+    let ticketsWeCreated = [];
+
+    tickets = dataGen.getTickets(numOfTickets);
+
+    ticketArray = tickets.data[1]['update-tickets'].tickets;
+    ticketArray.forEach(i => {
+        ticketsWeCreated.push(i);
+    });
+
+    restApi.sendTickets(tickets);
+
     while (retries < 4) {
-        let ticketsWeCreated = [];
-
-        tickets = dataGen.getTickets(numOfTickets);
-
-        ticketArray = tickets.data[1]['update-tickets'].tickets;
-        ticketArray.forEach(i => {
-            ticketsWeCreated.push(i);
-        });
-
-        restApi.sendTickets(tickets);
-
-
 
         await sleep(10000);
-
-
 
         let pageResponse = await centreApi.getData(1);
         let pages = pageResponse.data.meta.pagination['total_pages'];
@@ -47,7 +44,6 @@ async function run(numOfTickets) {
                 console.log(JSON.stringify(errors, null, 2));
                 slack.sendErrorMsg(errors);
             }
-
             retries++;
         }
     }
