@@ -4,6 +4,7 @@ const dataGen = require('./DataGeneration');
 const restApi = require('./SendAPI');
 const centreApi = require('./CentreAPI');
 const validation = require('./Validation');
+const run = require('./Run.js');
 
 //tracks total amount of tickets
 let ticketsWeCreated = [];
@@ -82,9 +83,6 @@ router.get('/getCentreTickets', async function (req, res) {
     ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
   }
 
-  console.log(ticketsWeCreated);
-  console.log(ticketsFromCentre);
-
   let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
   if (errors.length == 0) {
@@ -97,6 +95,10 @@ router.get('/getCentreTickets', async function (req, res) {
   }
  
 });
+
+router.get('/run', function (req, res) {
+  res.send(run.run(req.query.count));
+})
 
 
 // define the home page route

@@ -170,7 +170,7 @@ validateTicket({
     configurable_field_value: ''
   })
 
-console.log(JSON.stringify(ERRORS, null, 2));
+//console.log(JSON.stringify(ERRORS, null, 2));
 
   
 
