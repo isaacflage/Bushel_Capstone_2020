@@ -2,43 +2,54 @@ const dataGen = require('./DataGeneration');
 const restApi = require('./SendAPI');
 const centreApi = require('./CentreAPI');
 const validation = require('./Validation');
+const slack = require('./slackTestNew');
 
 //big function that runs whole process
 async function run(numOfTickets) {
-    let ticketsWeCreated = [];
+    let retries = 0;
 
-    tickets = dataGen.getTickets(numOfTickets);
+    while (retries < 4) {
+        let ticketsWeCreated = [];
 
-    ticketArray = tickets.data[1]['update-tickets'].tickets;
-    ticketArray.forEach(i => {
-        ticketsWeCreated.push(i);
-    });
+        tickets = dataGen.getTickets(numOfTickets);
 
-    //restApi.sendTickets(tickets);
+        ticketArray = tickets.data[1]['update-tickets'].tickets;
+        ticketArray.forEach(i => {
+            ticketsWeCreated.push(i);
+        });
 
-
-
-    await sleep(10000);
-
+        restApi.sendTickets(tickets);
 
 
-    let pageResponse = await centreApi.getData(1);
-    let pages = pageResponse.data.meta.pagination['total_pages'];
 
-    let ticketsFromCentre = [];
+        await sleep(10000);
 
-    for (let i = 1; i <= pages; i++) {
-        let response = await centreApi.getData(i);
-        ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
-    }
 
-    let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
-    if (errors.length == 0) {
-        console.log('nice');
-    }
-    else {
-        console.log(JSON.stringify(errors, null, 2));
+        let pageResponse = await centreApi.getData(1);
+        let pages = pageResponse.data.meta.pagination['total_pages'];
+
+        let ticketsFromCentre = [];
+
+        for (let i = 1; i <= pages; i++) {
+            let response = await centreApi.getData(i);
+            ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
+        }
+
+        let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
+
+        if (errors.length == 0) {
+            console.log('nice');
+            break;
+        }
+        else {
+            if (retries == 3) {
+                console.log(JSON.stringify(errors, null, 2));
+                slack.sendErrorMsg(errors);
+            }
+
+            retries++;
+        }
     }
 
 
@@ -48,6 +59,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-module.exports.run = function(numOfTickets){
+module.exports.run = function (numOfTickets) {
     return run(numOfTickets);
 }
