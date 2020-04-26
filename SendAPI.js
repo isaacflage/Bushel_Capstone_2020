@@ -15,7 +15,7 @@ const routerClient = axios.create({
 function sendTickets(tickets){
     routerClient.post('/v1/push', tickets)
     .then(function (response) {
-        console.log(response);
+        //console.log(response);
     })
     .catch(function (error) {
         console.log(error);
