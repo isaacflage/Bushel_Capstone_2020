@@ -83,17 +83,17 @@ router.get('/getCentreTickets', async function (req, res) {
     ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
   }
 
-  let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
+  // let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
 
-  if (errors.length == 0) {
-    ticketsWeCreated = [];
-    res.send('nice');
-  }
-  else {
-    res.send(errors);
-    //call send slack error message here
-  }
- 
+  // if (errors.length == 0) {
+  //   ticketsWeCreated = [];
+  //   res.send('nice');
+  // }
+  // else {
+  //   res.send(errors);
+  //   //call send slack error message here
+  // }
+  res.send(ticketsFromCentre);
 });
 
 router.get('/run', function (req, res) {
