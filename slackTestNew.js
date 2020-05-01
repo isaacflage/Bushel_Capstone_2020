@@ -31,15 +31,6 @@ function formatTicket(ticket) {
                 "text": {
                     "type": "mrkdwn",
                     "text": "*Error Id: `" + ticket.id + "`*\n Message: " + ticket.message
-                },
-                "accessory": {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "emoji": true,
-                        "text": "Checked"
-                    },
-                    "value": "click_me_123"
                 }
             }
         ]
@@ -63,15 +54,7 @@ function formatTicket(ticket) {
     formated.blocks.push(
         {
             "type": "divider"
-        }, {
-        "type": "context",
-        "elements": [
-            {
-                "type": "mrkdwn",
-                "text": "No votes"
-            }
-        ]
-    }
+        }
     );
 
     return formated;
