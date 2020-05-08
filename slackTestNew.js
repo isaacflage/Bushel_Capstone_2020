@@ -1,5 +1,5 @@
 const { WebClient } = require('@slack/web-api');
-require('dotenv').config({ path: './slack.env' });
+require('dotenv').config({ path: './secrets.env' });
 const dotenv = require('dotenv');
 
 /**!----double check that you've created slack.env with the correct token stored----!**/

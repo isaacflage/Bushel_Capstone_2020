@@ -14,7 +14,7 @@ let ticketRunCount = 0;
 let statusRunCount = 0;
 
 //query router
-router.get('/getTickets', (req, res) => {
+router.get('/sendTickets', (req, res) => {
   tickets = dataGen.getTickets(req.query.count);
   res.send(tickets);
   

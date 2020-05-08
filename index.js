@@ -3,7 +3,7 @@ const app = express();
 const createTickets = require('./DataGeneration');
 
 //use router module
-var router = require('./getTickets_router');
+var router = require('./Router');
 
 app.use('/', router);
 
