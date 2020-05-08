@@ -82,17 +82,6 @@ router.get('/getCentreTickets', async function (req, res) {
     let response = await centreApi.getData(i);
     ticketsFromCentre = ticketsFromCentre.concat(response.data.data);
   }
-
-  // let errors = validation.validate(ticketsWeCreated, ticketsFromCentre);
-
-  // if (errors.length == 0) {
-  //   ticketsWeCreated = [];
-  //   res.send('nice');
-  // }
-  // else {
-  //   res.send(errors);
-  //   //call send slack error message here
-  // }
   res.send(ticketsFromCentre);
 });
 
@@ -100,11 +89,9 @@ router.get('/run', function (req, res) {
   res.send(run.run(req.query.count));
 })
 
-
 // define the home page route
 router.get('/', function(req, res) {
   res.send('heyheyhey home page <br/><br/>/getTickets/:ElePrefix<br/><br/> /getTickets/:ElePrefix/:CommodityID?count=x <br/><br/>/getElevator <br/><br/>/getElevator/:ElePrefix <br/><br/> getCommodities');
 });
-
 
 module.exports = router;

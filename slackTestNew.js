@@ -2,13 +2,15 @@ const { WebClient } = require('@slack/web-api');
 require('dotenv').config({ path: './slack.env' });
 const dotenv = require('dotenv');
 
-
+/**!----double check that you've created slack.env with the correct token stored----!**/
 const token = process.env.SLACK_TOKEN;
 
 const web = new WebClient(token);
 
-
-//send one tickets error one time
+/**
+ * Sends a message to Slack and outputs confirmation to console. To be called in func sendErrorMessage
+ * @param {*} OneTicketMsg message to be sent
+ */
 function slackSendMsg(OneTicketMsg) {
     (async () => {
         try {
@@ -21,7 +23,10 @@ function slackSendMsg(OneTicketMsg) {
 }
 
 
-//format one ticket
+/**
+ * Formats a ticket to be a pretty-lookin' Slack message
+ * @param {*} ticket ticket to be formatted 
+ */
 function formatTicket(ticket) {
     var formated = {
         channel: '#random',
@@ -35,7 +40,6 @@ function formatTicket(ticket) {
             }
         ]
     }
-
     //format fields
     if (ticket.fields) {
         var k;
@@ -49,31 +53,28 @@ function formatTicket(ticket) {
             });
         }
     }
-
     //add end thing
     formated.blocks.push(
         {
             "type": "divider"
         }
     );
-
     return formated;
-
 }
 
-//method that used in validation, argument is error json object
+/**
+ * Sends error message to Slack for each error
+ * @param {*} errors errors as a JSON 
+ */
 function sendErrorMsg(errors) {
 
     var i;
     for (i = 0; i < errors.length; i++) {
         slackSendMsg(formatTicket(errors[i]));
-
     }
-
 }
 
-
-//export 
+//exports 
 module.exports.slackSendMsg = function (id) {
     slackSendMsg(id);
 }

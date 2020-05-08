@@ -14,8 +14,6 @@ function getData(pageNum){
     return axios.post(`https://centre-r3.scaleticket.net/api/v3/tickets?page=${pageNum}`);
 };
 
-
 module.exports.getData = function(pageNum){
     return getData(pageNum);
 }
-

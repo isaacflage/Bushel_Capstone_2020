@@ -8,9 +8,6 @@ const routerClient = axios.create({
     headers: {'X-Company-Slug': 'capstone', 'Authorization': process.env.SEND_AUTH_TOKEN}
   });
 
-// axios.defaults.headers.common['Authorization'] = process.env.SEND_AUTH_TOKEN;
-// axios.defaults.headers.common['X-Company-Slug'] = 'capstone';
-//axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 function sendTickets(tickets){
     routerClient.post('/v1/push', tickets)

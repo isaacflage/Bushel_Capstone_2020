@@ -2,7 +2,9 @@
 let faker = require('faker');
 
 /**
- * Generates a random ticket
+ * Generated and returns a random ticket
+ * @param {*} ElePrefix Elevator ticket is assigned to
+ * @param {*} CommodityID Commodity assigned to ticket
  */
 function generateTicket(ElePrefix = "GRAN", CommodityID = null){   
     remarkAmount = Math.floor(Math.random() * 10);
@@ -89,7 +91,9 @@ function generateTicket(ElePrefix = "GRAN", CommodityID = null){
 }
 
 /**
- * Generates a random split corresponding to a ticket
+ * Generates up to 4 random splits per ticket 
+ * @param {*} ticketId 
+ * @param {*} userId 
  */
 function generateSplit(ticketId, userId) {
     userIdList = ["K3523", "S1109", "Q4393", "L1432", "I8035", "Y4589", "H9653", "A3165", "C9487", "O6234"];
@@ -118,7 +122,9 @@ function generateSplit(ticketId, userId) {
     return splits;
 }
 
-//default generate elevator without argument
+/**
+ * Default method for elevator generation, takes no argument
+ */
 function generateElevator(){
     elevators = [];
     elevatorIdList = ["GRAN01", "GRAN02", "GRAN03", "GRAN04", "GRAN05", "GRAN06", "GRAN07", "GRAN08", "GRAN09", "GRAN10"];
@@ -140,7 +146,10 @@ function generateElevator(){
     return elevators;
 }
 
-//generage elevator
+/**
+ * Generates elevator 
+ * @param {*} ElePrefix Elevator prefix
+ */
 function generateElevator(ElePrefix){
     elevators = [];
     
@@ -164,7 +173,11 @@ function generateElevator(ElePrefix){
 
 
 
-//generate comodity
+/**
+ * Generates commodity 
+ * @param {*} num 
+ * @param {*} ElePrefix 
+ */
 function generateCommodity(num = 10 , ElePrefix = "GRAN" ){
     
     commodity = [];
@@ -181,7 +194,7 @@ function generateCommodity(num = 10 , ElePrefix = "GRAN" ){
         commodity[k-1] = {
             id:commodityIdList[k-1],
             display_Name:commodityIdList[k-1]+"_FullName",
-            elevator_id: elevatorIdList[Math.floor(Math.random() * 10)]//qusetion for binding elevator id and commodity id in tickets and commodity amd elevator data
+            elevator_id: elevatorIdList[Math.floor(Math.random() * 10)]
         }
     };
 
@@ -217,9 +230,11 @@ function package_update_elevators(ElePrefix){
 
 
 /**
- * Generates json object of specified number of tickets and their splits
+ * Generates JSON with specified number of tickets
+ * @param {*} numOfTickets number of tickets to be generated
+ * @param {*} ElePrefix Elevator prefix
+ * @param {*} CommodityID commodity 
  */
-
 function createTickets(numOfTickets, ElePrefix,CommodityID)
 {   
     tickets = [];
@@ -233,8 +248,6 @@ function createTickets(numOfTickets, ElePrefix,CommodityID)
             allSplits.push(s);
         });
     }
-
-    
     updateSplits = {
         'splits': allSplits
     };
@@ -246,11 +259,6 @@ function createTickets(numOfTickets, ElePrefix,CommodityID)
         'elevators': generateElevator(ElePrefix)
     };
 
-    // updateCommodities = {
-    //     'commodity': generateCommodity(ElePrefix)
-    // };
-
-
     updateSplitsPackage = {
         'update-splits': updateSplits,      
     };
@@ -260,25 +268,15 @@ function createTickets(numOfTickets, ElePrefix,CommodityID)
     updateElevatorsPackage = {
         'update-elevators': updateElevators
     };
-
-    // updataCommoditysPackage = {
-    //     "update-commodities":updateCommodities
-    // };
-    // ,updataCommoditysPackage
     data = [updateSplitsPackage, updateTicketsPackage, updateElevatorsPackage];
     dataPackage = {
         'data': data
     };
 
-    //return JSON.stringify(dataPackage), for some reason you have to stringify for it to appear correctly in the console window, but the line below makes it appear correctly for the browser ヽ(ﾟдﾟ)ノ
     return dataPackage;
 }
-
-
-
-
-
-
+    
+//exports
 module.exports.getTickets = function(numOfTickets,ElePrefix = "GRAN",CommodityID = null){
     return createTickets(numOfTickets, ElePrefix, CommodityID );
 }
@@ -290,8 +288,3 @@ module.exports.getUpdateElevators = function(ElePrefix){
 module.exports.getUpdateCommodities = function(num = 10){
     return package_commodity(num);
 }
-
-
-//testing
-//console.log((createTickets(3)));
-

@@ -4,7 +4,10 @@ const centreApi = require('./CentreAPI');
 const validation = require('./Validation');
 const slack = require('./slackTestNew');
 
-//big function that runs whole process
+/**
+ * Generates a specified number of tickets, sends tickets, validates tickets, and post any error messages to Slack. A 40 second delay is built in to prevent false positives
+ * @param {*} numOfTickets number of tickets to be generated 
+ */
 async function run(numOfTickets) {
     let retries = 0;
 

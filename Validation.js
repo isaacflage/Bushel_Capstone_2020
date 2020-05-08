@@ -2,6 +2,11 @@
 
 ERRORS = [];
 
+/**
+ * Checks to see which created tickets exist within centre tickets. If they exist, func validateTicket is called on each ticket
+ * @param {*} ticketsWeCreated local tickets  
+ * @param {*} ticketsFromCentre centre tickets
+ */
 function validate(ticketsWeCreated, ticketsFromCentre){
     ERRORS = [];
     
@@ -74,7 +79,11 @@ let validationSchema = [
         centreFieldTransform: to_uppercase
     }
 ];
-
+/**
+ * Checks that local ticket's values match the centre ticket's values
+ * @param {*} ticketWeCreated local ticket
+ * @param {*} ticketFromCentre centre ticket
+ */
 function validateTicket(ticketWeCreated, ticketFromCentre){
     
     FIELD_ERRORS = [];
@@ -90,8 +99,6 @@ function validateTicket(ticketWeCreated, ticketFromCentre){
             })
         }
     })
-
-
     //pushing errors to our ERRORS array
     if (FIELD_ERRORS.length != 0){
         ERRORS.push({
@@ -100,7 +107,6 @@ function validateTicket(ticketWeCreated, ticketFromCentre){
             fields: FIELD_ERRORS
         });
     }
-
 }
 
 module.exports.validate = function(ticketsWeCreated, ticketsFromCentre){
