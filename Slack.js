@@ -29,7 +29,7 @@ function slackSendMsg(OneTicketMsg) {
  */
 function formatTicket(ticket) {
     var formated = {
-        channel: '#random',
+        channel: '#random', //put channel name here
         "blocks": [
             {
                 "type": "section",

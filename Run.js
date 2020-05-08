@@ -2,7 +2,7 @@ const dataGen = require('./DataGeneration');
 const restApi = require('./SendAPI');
 const centreApi = require('./CentreAPI');
 const validation = require('./Validation');
-const slack = require('./slackTestNew');
+const slack = require('./Slack');
 
 /**
  * Generates a specified number of tickets, sends tickets, validates tickets, and post any error messages to Slack. A 40 second delay is built in to prevent false positives
